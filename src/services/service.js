@@ -13,31 +13,85 @@ export default class GotService {
         return await res.json();
     }
 
-    getAllCharacters() {
-        return this.getResource(`/characters?page=5&pageSize=10`);
+    async getAllCharacters() {
+       const res = await this.getResource(`/characters?page=5&pageSize=10`);
+       return res.map(this._transformCharacter);
     }
 
-    getCharacter(id) {
-        return this.getResource(`/characters/${id}`);
+    async getCharacter(id) {
+        const char = await this.getResource(`/characters/${id}`);
+        return this._transformCharacter(char);
     }
 
-    getAllHouses() {
-        return this.getResource(`/houses?page=1&pageSize=10`);
+    async getAllHouses() {
+        const res = await this.getResource(`/houses?page=1&pageSize=10`);
+        return res.map(this._transformHouse);
     }
 
-    getHouse(id) {
-        return this.getResource(`/houses/${id}`);
+    async getHouse(id) {
+        const house = await this.getResource(`/houses/${id}`);
+        return this._transformCharacter(house);
     }
 
-    getAllBooks() {
-        return this.getResource(`/books?page=1&pageSize=10`);
+    async getAllBooks() {
+        const res = await this.getResource(`/books?page=1&pageSize=10`);
+        return res.map(this._transformBook);
     }
 
-    getBook(id) {
-        return this.getResource(`/books/${id}`);
+    async getBook(id) {
+        const book = await  this.getResource(`/books/${id}`);
+        return this._transformBook(book);
     }
 
+    _transformCharacter(char) {
+        for (const prop in char) {
+            if (char[prop].length === 0) {
+                char[prop] = `no ${prop} info provided`;
+            }
+        }
 
+        return {
+            name: char.name,
+            gender: char.gender,
+            born: char.born,
+            died: char.died,
+            culture: char.culture
+        }
+    }
+
+    _transformHouse(house) {
+
+        for (const prop in house) {
+            if (house[prop].length === 0) {
+                house[prop] = `no ${prop} info provided`;
+            }
+        }
+
+        return {
+            name: house.name,
+            region: house.region,
+            words: house.words,
+            title: house.title,
+            overload: house.overload,
+            ancestralWeapons: house.ancestralWeapons,
+        }
+    }
+
+    _transformBook(book) {
+
+        for (const prop in book) {
+            if (book[prop].length === 0) {
+                book[prop] = `no ${prop} info provided`;
+            }
+        }
+
+        return {
+            name: book.name,
+            numberOfPages: book.numberOfPages,
+            publisher: book.publisher,
+            released: book.released
+        }
+    }
 }
 
 const got = new GotService();
