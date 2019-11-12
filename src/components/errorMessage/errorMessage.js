@@ -4,10 +4,10 @@ import './errorMessage.css';
 const ErrorMessage = () => {
 return (
     <>
-    <img src={process.env.PUBLIC_URL + '/img/error.jpg' alt='error'}></img>
+    <img src={process.env.PUBLIC_URL + '/img/error-img.jpeg'} alt='error'></img>
     <span>Something went wrong...</span>
     </>
 )
 }
 
-export default ErrorMessage
+export default ErrorMessage;

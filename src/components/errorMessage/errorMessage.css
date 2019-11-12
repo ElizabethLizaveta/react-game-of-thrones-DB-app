@@ -1,3 +1,6 @@
-.rendom-block img {
-    width: 100%;
+.rounded img {
+    width: auto;
+    margin: 0 auto 10px;
+    display: block;
+    height: 250px;
 }
