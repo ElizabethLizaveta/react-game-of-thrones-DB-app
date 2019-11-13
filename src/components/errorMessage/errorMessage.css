@@ -2,5 +2,10 @@
     width: auto;
     margin: 0 auto 10px;
     display: block;
-    height: 250px;
+    height: auto;
+    max-width: 150px; 
+}
+
+.error-text {
+    color: #fff;
 }

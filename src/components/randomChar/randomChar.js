@@ -9,7 +9,7 @@ import ErrorMessage from '../errorMessage';
 const RandomBlock = styled.div`
     background-color: #fff;
     padding: 25px 25px 15px 25px;
-    min-height: 312px;
+    min-height: 320px;
     margin-bottom: 40px;
 
     h4 {
@@ -22,17 +22,21 @@ const RandomBlock = styled.div`
 `
 export default class RandomChar extends Component {
 
-    constructor() {
-        super();
-        this.updateChar();
-    }
-
     gotService = new GotService();
 
     state = {
         char: {},
         loading: true,
         error: false
+    }
+
+    componentDidMount() {
+        this.updateChar();
+        this.timerId = setInterval(this.updateChar, 1500);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerId);
     }
 
     onCharLoaded = (char) => {
@@ -49,7 +53,7 @@ export default class RandomChar extends Component {
         })
     }
 
-    updateChar() {
+    updateChar = () => { 
         const id = Math.floor(Math.random() * 140 + 25);
         //const id = 2222222;
         this.gotService.getCharacter(id)
@@ -57,8 +61,7 @@ export default class RandomChar extends Component {
             .catch(this.onError);
     }
 
-    render() {
-
+    render() { 
         const { char, loading, error } = this.state;
 
         const errorMessage = error ? <ErrorMessage /> : null;

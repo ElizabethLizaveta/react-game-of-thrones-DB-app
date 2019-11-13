@@ -1,34 +1,35 @@
-import React, {Component} from 'react';
-import {Col, Row, Container} from 'reactstrap';
+import React, { Component } from 'react';
+import { Col, Row, Container } from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
-import ItemList from '../itemList';
-import CharDetails from '../charDetails';
+import CharacterPage from '../characterPage';
+import ErrorMessage from '../errorMessage';
 import styled from 'styled-components';
 
 const RandomBlock = styled.button`
-position: absolute;
-left: 15px;
-bottom: 20px;
+margin: 0 0 40px 15px;
 color: #fff;
-background: transparent;
+background: #1a1c30;
 padding: 20px;
 font-size: 18px;
-border: 2px solid white;
+border: 3px solid white;
 `
 
 export default class App extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-            randomCharVisible: true
-        }
-
-        this.toogleBlock = this.toogleBlock.bind(this);
+    state = {
+        randomCharVisible: true,
+        error: false
     }
 
-    toogleBlock() {
+    componentDidCatch() {
+        console.log('error');
+        this.setState({
+            error: true
+        })
+    }
+
+    toogleBlock = () => {
         this.setState({
             randomCharVisible: !this.state.randomCharVisible
         })
@@ -36,31 +37,28 @@ export default class App extends Component {
 
     render() {
         const { randomCharVisible } = this.state;
-        const randomCharBlock = randomCharVisible ? <RandomChar/> : null;
+        const randomCharBlock = randomCharVisible ? <RandomChar /> : null;
         const btnText = randomCharVisible ? 'Hide Random Character' : 'Show Random Character';
-        
+
+        if (this.state.error) {
+            return <ErrorMessage/>
+        }
+
         return (
-            <> 
+            <>
                 <Container>
                     <Header />
                 </Container>
                 <Container>
                     <Row>
-                        <Col lg={{size: 5, offset: 0}}>
+                        <Col lg={{ size: 5, offset: 0 }}>
                             {randomCharBlock}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md='6'>
-                            <ItemList />
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails />
                         </Col>
                     </Row>
                     <Row>
                         <RandomBlock onClick={this.toogleBlock}>{btnText}</RandomBlock>
                     </Row>
+                   <CharacterPage></CharacterPage>
                 </Container>
             </>
         );

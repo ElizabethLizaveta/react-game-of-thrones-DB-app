@@ -1,3 +1,11 @@
+.item-list {
+    background: white;
+    height: 491px;
+    min-width: 540px;
+    border-radius: 0.25rem !important;
+    position: relative;
+}
+
 .item-list .list-group-item {
     cursor: pointer;
 }

@@ -5,7 +5,7 @@ const ErrorMessage = () => {
 return (
     <>
     <img src={process.env.PUBLIC_URL + '/img/error-img.jpeg'} alt='error'></img>
-    <span>Something went wrong...</span>
+    <span className="error-text">Something went wrong...</span>
     </>
 )
 }

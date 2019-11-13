@@ -32,6 +32,11 @@
     }
 }
 
+.lds-css {
+top: 50%;
+transform: translateY(50%);
+}
+
 .lds-gear>div {
     -webkit-transform-origin: 100px 100px;
     transform-origin: 100px 100px;
@@ -90,7 +95,7 @@
 }
 
 .lds-gear {
-    margin: 36px auto;
+    margin: 0 auto;
     width: 200px !important;
     height: 200px !important;
     -webkit-transform: translate(-50%, -50%) scale(1) translate(50%, 50%);
