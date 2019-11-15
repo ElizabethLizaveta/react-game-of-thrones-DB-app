@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import GotService from '../../services/service';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { ListGroup } from 'reactstrap';
 import './itemList.css';
 import Spinner from '../spinner';
+import ErrorMessage from '../errorMessage';
 export default class ItemList extends Component {
 
     gotService = new GotService();
 
     state = {
-        charList: null
+        charList: null,
+        error: false
     }
 
     componentDidMount() {
@@ -17,10 +19,18 @@ export default class ItemList extends Component {
                 this.setState({
                     charList
                 })
-            }) 
+            })
+            //this.foo.bar = 0;
+    }
+
+    componentDidCatch() {
+        this.setState({
+            error: true
+        })
     }
 
     renderItems(arr) {
+
         return arr.map((item, i) => {
 
             const id = item.url.split('/').pop();
@@ -37,6 +47,9 @@ export default class ItemList extends Component {
     }
 
     render() {
+        if (this.state.error) {
+            return <ErrorMessage />
+        }
         const { charList } = this.state;
         let content;
 

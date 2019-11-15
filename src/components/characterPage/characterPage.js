@@ -1,42 +1,41 @@
 import React, { Component } from 'react';
-import { Col, Row, Container } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import ItemList from '../itemList';
 import CharDetails from '../charDetails';
 import ErrorMessage from '../errorMessage';
 
 export default class CharacterPage extends Component {
-state = {
-    selectedChar: 100,
-    error: false
-}
+    state = {
+        selectedChar: 100,
+        error: false
+    }
 
-onCharSelected = (id) => {
-    this.setState({
-        selectedChar: id
-    })
-}
+    onCharSelected = (id) => {
+        this.setState({
+            selectedChar: id
+        })
+    }
 
-componentDidCatch() { 
-    this.setState({
-        error: true
-    })
-}
+    componentDidCatch() {
+        this.setState({
+            error: true
+        })
+    }
 
     render() {
         if (this.state.error) {
-            return <ErrorMessage/> 
+            return <ErrorMessage />
         }
 
-    return(
-        <Row>
-        <Col md='6'>
-            <ItemList onCharSelected={this.onCharSelected} />
-        </Col>
-        <Col md='6'>
-            <CharDetails charId={this.state.selectedChar} />
-        </Col>
-    </Row>
-    )
-}
-
+        return (
+            <Row>
+                <Col md='6'>
+                    <ItemList onCharSelected={this.onCharSelected} />
+                </Col>
+                <Col md='6'>
+                    <CharDetails charId={this.state.selectedChar} />
+                </Col>
+            </Row>
+        )
+    }
 }

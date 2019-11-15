@@ -40,7 +40,7 @@ export default class CharDetails extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.charId != prevProps.charId) {
+        if (this.props.charId !== prevProps.charId) {
             this.updateChar();
         }
     }
@@ -58,24 +58,24 @@ export default class CharDetails extends Component {
         //this.foo.bar = 0;
     }
 
-    render() { 
+    render() {
         const { char } = this.state;
 
-        const content = (!char) ? <ErrorView/> : <View char={char} />
+        const content = (!char) ? <ErrorView /> : <View char={char} />
 
         return (
             <Details className="rounded">
-            {content}
+                {content}
             </Details>
         );
     }
 }
 
-const View = ({char}) => {
+const View = ({ char }) => {
     const { name, gender, born, died, culture } = char;
 
     return (
-       <>
+        <>
             <h4>{name}</h4>
             <ListGroup className="list-group-flush">
                 <ListGroupItem className="d-flex justify-content-between">
@@ -95,7 +95,7 @@ const View = ({char}) => {
                     <span>{culture}</span>
                 </ListGroupItem>
             </ListGroup>
-       </> 
+        </>
     )
 }
 
