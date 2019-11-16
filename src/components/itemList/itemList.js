@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
-import GotService from '../../services/service';
 import { ListGroup } from 'reactstrap';
 import './itemList.css';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 export default class ItemList extends Component {
 
-    gotService = new GotService();
-
     state = {
-        charList: null,
+        itemList: null,
         error: false
     }
 
     componentDidMount() {
-        this.gotService.getAllCharacters()
-            .then((charList) => {
+        const { getData } = this.props;
+
+        getData()
+            .then((itemList) => {
                 this.setState({
-                    charList
+                    itemList
                 })
             })
-            //this.foo.bar = 0;
+        //this.foo.bar = 0;
     }
 
     componentDidCatch() {
@@ -32,15 +31,14 @@ export default class ItemList extends Component {
     renderItems(arr) {
 
         return arr.map((item, i) => {
-
-            const id = item.url.split('/').pop();
-
+            const { id } = item;
+            const label = this.props.renderItem(item);
             return (
                 <li
-                    key={i}
+                    key={id}
                     className="list-group-item"
-                    onClick={(e) => this.props.onCharSelected(id)}>
-                    {item.name}
+                    onClick={(e) => this.props.onItemSelected(id)}>
+                    {label}
                 </li>
             )
         })
@@ -50,13 +48,13 @@ export default class ItemList extends Component {
         if (this.state.error) {
             return <ErrorMessage />
         }
-        const { charList } = this.state;
+        const { itemList } = this.state;
         let content;
 
-        if (!charList) {
+        if (!itemList) {
             content = <Spinner />
         } else {
-            content = this.renderItems(charList);
+            content = this.renderItems(itemList);
         }
 
         return (

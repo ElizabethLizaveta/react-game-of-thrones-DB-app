@@ -1,3 +1,6 @@
-import RandomChar from './randomChar';
+import RandomChar, {MyField} from './randomChar';
 
 export default RandomChar;
+export {
+    MyField
+}

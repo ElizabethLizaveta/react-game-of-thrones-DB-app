@@ -27,12 +27,24 @@ const AlarmMessage = styled.span`
     font-size: 26px;
 `
 
+const Field = ({ item, field, label }) => {
+    return (
+        <ListGroupItem className="d-flex justify-content-between">
+            <span className="term">{label}</span>
+            <span>{item[field]}</span>
+        </ListGroupItem>
+    )
+}
+
+export {
+    Field
+}
 export default class CharDetails extends Component {
 
-    gotSetvice = new GotService();
+    gotService = new GotService();
 
     state = {
-        char: null,
+        item: null,
     }
 
     componentDidMount() {
@@ -40,63 +52,49 @@ export default class CharDetails extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.charId !== prevProps.charId) {
+        if (this.props.itemId !== prevProps.itemId) {
             this.updateChar();
         }
     }
 
     updateChar() {
-        const { charId } = this.props;
-        if (!charId) {
+        const { itemId, getData } = this.props;
+        if (!itemId) {
             return;
         }
 
-        this.gotSetvice.getCharacter(charId)
-            .then((char) => {
-                this.setState({ char })
+        getData(itemId)
+            .then((item) => {
+                this.setState({ item })
             })
         //this.foo.bar = 0;
     }
 
     render() {
-        const { char } = this.state;
+        
+        if (!this.state.item) {
+            return (
+                <ErrorView />
+            )
+        }
 
-        const content = (!char) ? <ErrorView /> : <View char={char} />
+        const { item } = this.state;
+        const { name } = item;
+
 
         return (
             <Details className="rounded">
-                {content}
+                <h4>{name}</h4>
+                <ListGroup className="list-group-flush">
+                    {
+                        React.Children.map(this.props.children, (child) => {
+                            return React.cloneElement(child, { item })
+                        })
+                    }
+                </ListGroup>
             </Details>
         );
     }
-}
-
-const View = ({ char }) => {
-    const { name, gender, born, died, culture } = char;
-
-    return (
-        <>
-            <h4>{name}</h4>
-            <ListGroup className="list-group-flush">
-                <ListGroupItem className="d-flex justify-content-between">
-                    <span className="term">Gender</span>
-                    <span>{gender}</span>
-                </ListGroupItem>
-                <ListGroupItem className="d-flex justify-content-between">
-                    <span className="term">Born</span>
-                    <span>{born}</span>
-                </ListGroupItem>
-                <ListGroupItem className="d-flex justify-content-between">
-                    <span className="term">Died</span>
-                    <span>{died}</span>
-                </ListGroupItem>
-                <ListGroupItem className="d-flex justify-content-between">
-                    <span className="term">Culture</span>
-                    <span>{culture}</span>
-                </ListGroupItem>
-            </ListGroup>
-        </>
-    )
 }
 
 const ErrorView = () => {

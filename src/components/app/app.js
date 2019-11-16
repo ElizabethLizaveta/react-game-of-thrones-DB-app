@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Col, Row, Container } from 'reactstrap';
+import { Row, Container } from 'reactstrap';
 import Header from '../header';
-import RandomChar from '../randomChar';
+import RandomCharPage from '../randomCharPage';
 import CharacterPage from '../characterPage';
+import BookPage from '../bookPage';
+import HousePage from '../housePage';
 import ErrorMessage from '../errorMessage';
 import styled from 'styled-components';
+import GotService from '../../services/service';
 
 const RandomBlock = styled.button`
 margin: 0 0 40px 15px;
@@ -16,6 +19,7 @@ border: 3px solid white;
 `
 
 export default class App extends Component {
+    gotService = new GotService();
 
     state = {
         randomCharVisible: true,
@@ -37,11 +41,11 @@ export default class App extends Component {
 
     render() {
         const { randomCharVisible } = this.state;
-        const randomCharBlock = randomCharVisible ? <RandomChar /> : null;
+        const randomCharBlock = randomCharVisible ? <RandomCharPage /> : null;
         const btnText = randomCharVisible ? 'Hide Random Character' : 'Show Random Character';
 
         if (this.state.error) {
-            return <ErrorMessage/>
+            return <ErrorMessage />
         }
 
         return (
@@ -50,15 +54,13 @@ export default class App extends Component {
                     <Header />
                 </Container>
                 <Container>
-                    <Row>
-                        <Col lg={{ size: 5, offset: 0 }}>
-                            {randomCharBlock}
-                        </Col>
-                    </Row>
+                    {randomCharBlock}
                     <Row>
                         <RandomBlock onClick={this.toogleBlock}>{btnText}</RandomBlock>
                     </Row>
-                   <CharacterPage></CharacterPage>
+                    <CharacterPage></CharacterPage>
+                    <BookPage></BookPage>
+                    <HousePage></HousePage>
                 </Container>
             </>
         );
