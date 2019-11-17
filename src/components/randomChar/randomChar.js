@@ -8,7 +8,7 @@ import ErrorMessage from '../errorMessage';
 const RandomBlock = styled.div`
     background-color: #fff;
     padding: 25px 25px 15px 25px;
-    min-height: 320px;
+    min-height: 365px;
     margin-bottom: 40px;
 
     h4 {

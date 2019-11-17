@@ -4,6 +4,11 @@
 	padding: 0;
     outline: none;
 }
+
+html {
+    background: gray;
+}
+
 body {
     overflow-x: hidden;
 }
@@ -12,6 +17,7 @@ body {
     background: url('img/wp.jpg') center center no-repeat;
     background-size: cover;
     font-size: 16px;
-    height: 100%;	
-    padding-bottom: 60px;
+    height: 100%;
+    min-height: 100vh;	
+    padding-bottom: 350px;
 }
