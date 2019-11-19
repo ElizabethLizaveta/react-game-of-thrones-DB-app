@@ -74,7 +74,7 @@ function ItemDetails({ itemId, getData, children }) {
             <ListGroup className="list-group-flush">
                 {
                     React.Children.map(children, (child) => {
-                        return React.cloneElement(child, item)
+                        return React.cloneElement(child, {item})
                     })
                 }
             </ListGroup>

@@ -100,45 +100,13 @@ export default class GotService {
 
 const got = new GotService();
 
-got.getAllCharacters()
-    .then(res => {
-        console.log('All characters:');
-        res.forEach(element => {
-            console.log(element.name);
-        });
-    })
+ 
 
-got.getCharacter(130)
-    .then(res => {
-        console.log('Character 130:');
-        console.log(res);
-    })
+ 
 
-got.getAllHouses()
-    .then(res => {
-        console.log('All houses:');
-        res.forEach(element => {
-            console.log(element.name);
-        });
-    })
+ 
+ 
 
-got.getHouse(1)
-    .then(res => {
-        console.log('House 1:');
-        console.log(res);
-    })
+ 
 
-got.getAllBooks()
-    .then(res => {
-        console.log('All books:');
-        res.forEach(element => {
-            console.log(element.name);
-        });
-    })
-
-got.getBook(5)
-    .then(res => {
-        console.log('Book 5:');
-        console.log(res);
-    })
-
+ 

@@ -34,7 +34,7 @@ export {
 
 function RandomChar({ getData, children }) { 
 
-    const [char, updateStateChar] = useState({});
+    const [char, updateStateChar] = useState([]);
     const [loading, updateLoading] = useState(false);
     const [error, updateError] = useState(false);
 
@@ -45,7 +45,7 @@ function RandomChar({ getData, children }) {
         return () => {
             clearInterval(timerId);
         }
-    });
+    }, []);
 
     function onCharLoaded(char) {
         updateStateChar(char);
@@ -85,7 +85,7 @@ function RandomChar({ getData, children }) {
             <ListGroup className="list-group-flush">
                 {
                     React.Children.map(children, (child) => {
-                        return React.cloneElement(child, char)
+                        return React.cloneElement(child, {char})
                     })
                 }
             </ListGroup>
