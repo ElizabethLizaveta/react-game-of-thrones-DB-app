@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import GotService from '../../services/service';
+import React, { useState, useEffect } from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import styled from 'styled-components';
 import Spinner from '../spinner';
@@ -39,63 +38,50 @@ const Field = ({ item, field, label }) => {
 export {
     Field
 }
-export default class ItemDetails extends Component {
 
-    gotService = new GotService();
+function ItemDetails({ itemId, getData, children }) {
 
-    state = {
-        item: null,
-    }
+    const [item, updateItem] = useState([]);
 
-    componentDidMount() {
-        this.updateChar();
-    }
+    useEffect(() => {
+        updateChar();
+    }, []);
 
-    componentDidUpdate(prevProps) {
-        if (this.props.itemId !== prevProps.itemId) {
-            this.updateChar();
-        }
-    }
+    function updateChar() {
 
-    updateChar() {
-        const { itemId, getData } = this.props;
         if (!itemId) {
             return;
         }
 
         getData(itemId)
             .then((item) => {
-                this.setState({ item })
+                updateItem(item)
             })
         //this.foo.bar = 0;
     }
 
-    render() {
-        
-        if (!this.state.item) {
-            return (
-                <ErrorView />
-            )
-        }
-
-        const { item } = this.state;
-        const { name } = item;
-
-
+    if (!item) {
         return (
-            <Details className="rounded">
-                <h4>{name}</h4>
-                <ListGroup className="list-group-flush">
-                    {
-                        React.Children.map(this.props.children, (child) => {
-                            return React.cloneElement(child, { item })
-                        })
-                    }
-                </ListGroup>
-            </Details>
-        );
+            <ErrorView />
+        )
     }
+
+    const { name } = item;
+
+    return (
+        <Details className="rounded">
+            <h4>{name}</h4>
+            <ListGroup className="list-group-flush">
+                {
+                    React.Children.map(children, (child) => {
+                        return React.cloneElement(child, item)
+                    })
+                }
+            </ListGroup>
+        </Details>
+    );
 }
+
 
 const ErrorView = () => {
     return (
@@ -105,3 +91,5 @@ const ErrorView = () => {
         </>
     )
 }
+
+export default ItemDetails;
