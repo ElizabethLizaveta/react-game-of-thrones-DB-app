@@ -1,66 +1,49 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ListGroup } from 'reactstrap';
 import './itemList.css';
-import Spinner from '../spinner';
-import ErrorMessage from '../errorMessage';
-export default class ItemList extends Component {
+import Spinner from '../spinner'; 
 
-    state = {
-        itemList: null,
-        error: false
-    }
 
-    componentDidMount() {
-        const { getData } = this.props;
+function ItemList({ getData, renderItem, onItemSelected }) {
 
+    const [itemList, updateItemList] = useState([]);
+
+    useEffect(() => {
         getData()
-            .then((itemList) => {
-                this.setState({
-                    itemList
-                })
+            .then((data) => {
+                updateItemList(data)
             })
-        //this.foo.bar = 0;
-    }
+    }, [])
 
-    componentDidCatch() {
-        this.setState({
-            error: true
-        })
-    }
-
-    renderItems(arr) {
+    function renderItems(arr) {
 
         return arr.map((item, i) => {
             const { id } = item;
-            const label = this.props.renderItem(item);
+            const label = renderItem(item);
             return (
                 <li
                     key={id}
                     className="list-group-item"
-                    onClick={(e) => this.props.onItemSelected(id)}>
+                    onClick={(e) => onItemSelected(id)}>
                     {label}
                 </li>
             )
         })
     }
+    
+    let content;
 
-    render() {
-        if (this.state.error) {
-            return <ErrorMessage />
-        }
-        const { itemList } = this.state;
-        let content;
-
-        if (!itemList) {
-            content = <Spinner />
-        } else {
-            content = this.renderItems(itemList);
-        }
-
-        return (
-            <ListGroup className="item-list">
-                {content}
-            </ListGroup>
-        );
+    if (!itemList) {
+        content = <Spinner />
+    } else {
+        content = renderItems(itemList);
     }
+
+    return (
+        <ListGroup className="item-list">
+            {content}
+        </ListGroup>
+    );
 }
+
+export default ItemList;

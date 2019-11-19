@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import styled from 'styled-components';
-import GotService from '../../services/service';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 
@@ -33,76 +32,65 @@ export {
     MyField
 }
 
-export default class RandomChar extends Component {
+function RandomChar({ getData, children }) { 
 
-    gotService = new GotService();
+    const [char, updateStateChar] = useState({});
+    const [loading, updateLoading] = useState(false);
+    const [error, updateError] = useState(false);
 
-    state = {
-        char: {},
-        loading: true,
-        error: false
+    useEffect(() => {
+        updateChar();
+        let timerId = setInterval(updateChar, 1500);
+
+        return () => {
+            clearInterval(timerId);
+        }
+    });
+
+    function onCharLoaded(char) {
+        updateStateChar(char);
+        updateLoading(false);
     }
 
-    componentDidMount() {
-        this.updateChar();
-        this.timerId = setInterval(this.updateChar, 1500);
+    function onError(err) {
+        updateLoading(false);
+        updateError(true);
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timerId);
-    }
-
-    onCharLoaded = (char) => {
-        this.setState({
-            char,
-            loading: false
-        })
-    }
-
-    onError = (err) => {
-        this.setState({
-            loading: false,
-            error: true
-        })
-    }
-
-    updateChar = () => {
-        const { getData } = this.props;
+    function updateChar() {
 
         const id = Math.floor(Math.random() * 140 + 25);
         //const id = 2222222;
         getData(id)
-            .then(this.onCharLoaded)
-            .catch(this.onError);
+            .then(onCharLoaded)
+            .catch(onError);
     }
 
-    render() {
-        const { char, loading, error } = this.state;
-        const { name } = char;
-        if (error) {
-            return (
-                <ErrorMessage />
-            )
-        }
-
-        if (loading) {
-            return (
-                <Spinner />
-            )
-        }
-
+    const { name } = char;
+    if (error) {
         return (
-            <RandomBlock className="rounded">
-                <h4>Random Character: {name}</h4>
-                <ListGroup className="list-group-flush">
-                    {
-                        React.Children.map(this.props.children, (child) => {
-                            return React.cloneElement(child, { char })
-                        })
-                    }
-                </ListGroup>
-            </RandomBlock>
-        );
+            <ErrorMessage />
+        )
     }
+
+    if (loading) {
+        return (
+            <Spinner />
+        )
+    }
+
+    return (
+        <RandomBlock className="rounded">
+            <h4>Random Character: {name}</h4>
+            <ListGroup className="list-group-flush">
+                {
+                    React.Children.map(children, (child) => {
+                        return React.cloneElement(child, char)
+                    })
+                }
+            </ListGroup>
+        </RandomBlock>
+    );
 }
- 
+
+export default RandomChar;
