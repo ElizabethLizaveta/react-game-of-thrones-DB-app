@@ -45,6 +45,7 @@ function ItemDetails({ itemId, getData, children }) {
 
     useEffect(() => {
         updateChar();
+        console.log(1);
     }, []);
 
     function updateChar() {
@@ -54,7 +55,8 @@ function ItemDetails({ itemId, getData, children }) {
         }
 
         getData(itemId)
-            .then((item) => {
+       
+            .then((item) => { 
                 updateItem(item)
             })
         //this.foo.bar = 0;
