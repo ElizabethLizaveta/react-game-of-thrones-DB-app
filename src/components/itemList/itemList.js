@@ -13,7 +13,7 @@ function ItemList({ getData, renderItem, onItemSelected }) {
             .then((data) => {
                 updateItemList(data)
             })
-    }, [])
+    }, [itemList])
 
     function renderItems(arr) {
 

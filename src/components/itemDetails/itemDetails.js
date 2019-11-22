@@ -46,7 +46,7 @@ function ItemDetails({ itemId, getData, children }) {
     useEffect(() => {
         updateChar();
         console.log(1);
-    }, []);
+    }, [item]);
 
     function updateChar() {
 

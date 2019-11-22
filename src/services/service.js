@@ -98,7 +98,7 @@ export default class GotService {
     }
 }
 
-const got = new GotService();
+
 
  
 
